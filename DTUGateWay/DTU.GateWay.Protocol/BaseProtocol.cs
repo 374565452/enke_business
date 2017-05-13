@@ -34,6 +34,10 @@ namespace DTU.GateWay.Protocol
             ToDtuSetYearExploitation = 0x23,
             [Description("查询遥测终端的年度可开采水量")]
             ToDtuQueryYearExploitation = 0x24,
+            //start add by kqz 2017-5-13 21:43
+            [Description("查询累计用水用电量")]
+            ToDtuSetWaterPower=0x25,
+            //end add
             [Description("状态自报数据")]
             FromDtuStateReport = 0x81,
             [Description("查询遥测终端状态数据")]

@@ -698,6 +698,23 @@ namespace WaterMonitorSystem.WebServices
                 myLogger.Info(op.OperationType + "：" + cmd.RawDataStr);
                 cmd_send = cmd.RawDataChar;
             }
+            //start add by kqz 2017-5-13 21:37
+            /*else if (paramName == "累计用水电量")
+            {
+                CmdToDdtuQueryWaterPower cmd = new CmdToDdtuQueryWaterPower();
+                cmd.AddressField = DeviceNo.Substring(0, 12) + Convert.ToInt32(DeviceNo.Substring(12, 3)).ToString("X").PadLeft(2, '0');
+                cmd.StationType = (byte)device.StationType;
+                cmd.StationCode = device.StationType == 2 ? device.StationCode : 0;
+                cmd.RawDataChar = cmd.WriteMsg();
+                cmd.RawDataStr = HexStringUtility.ByteArrayToHexString(cmd.RawDataChar);
+
+                op.OperationType = "累计用水电量";
+                op.RawData = cmd.RawDataStr;
+
+                myLogger.Info(op.OperationType + "：" + cmd.RawDataStr);
+                cmd_send = cmd.RawDataChar;
+            }*/
+            //end add
             else
             {
                 obj2["Message"] = "参数非法";
@@ -869,6 +886,35 @@ namespace WaterMonitorSystem.WebServices
                 myLogger.Info(op.OperationType + "：" + cmd.RawDataStr);
                 cmd_send = cmd.RawDataChar;
             }
+            //start add by kqz 2017-5-13 22:05 
+            else if (paramName == "累计用水电量")
+            {
+                CmdToDtuSetWaterPower cmd = new CmdToDtuSetWaterPower();
+                cmd.AddressField = DeviceNo.Substring(0, 12) + Convert.ToInt32(DeviceNo.Substring(12, 3)).ToString("X").PadLeft(2, '0');
+                cmd.StationType = (byte)device.StationType;
+                cmd.StationCode = device.StationType == 2 ? device.StationCode : 0;
+                string[] datas = paramValue.Split('|');
+                try
+                {
+                    cmd.WaterUsed = Convert.ToDecimal(datas[0]);
+                    cmd.PowerUsed = Convert.ToDecimal(datas[1]);
+                }
+                catch
+                {
+                    obj2["Message"] = "累计用水用电量设置不正确！";
+                    return JavaScriptConvert.SerializeObject(obj2);
+                }
+                cmd.RawDataChar = cmd.WriteMsg();
+                cmd.RawDataStr = HexStringUtility.ByteArrayToHexString(cmd.RawDataChar);
+
+                op.OperationType = "累计用水电量";
+                op.RawData = cmd.RawDataStr;
+                op.Remark = cmd.WaterUsed.ToString() +"==="+cmd.PowerUsed.ToString();
+
+                myLogger.Info(op.OperationType + "：" + cmd.RawDataStr);
+                cmd_send = cmd.RawDataChar;
+            }
+            //end add 
             else if (paramName == "屏蔽")
             {
                 CmdToDtuShieldSerialNumber cmd = new CmdToDtuShieldSerialNumber();
@@ -981,6 +1027,23 @@ namespace WaterMonitorSystem.WebServices
                             }
                             op.State = "发送成功";
                         }
+                        //start add by kqz 2017-5-13 22;51
+                        else if (paramName == "累计用水电量")
+                        {
+                            CmdResponseToDtuSetWaterPower res = new CmdResponseToDtuSetWaterPower(message);
+                            string msg1 = res.ReadMsg();
+                            if (msg1 == "")
+                            {
+                                obj2["Result"] = true;
+                                obj2["Params"] = res.WaterUsed.ToString()+"|"+res.PowerUsed.ToString();
+                            }
+                            else
+                            {
+                                obj2["Message"] = msg1;
+                            }
+                            op.State = "发送成功";
+                        }
+                        //end add
                         else if (paramName == "屏蔽")
                         {
                             CmdResponseToDtuShieldSerialNumber res = new CmdResponseToDtuShieldSerialNumber(message);

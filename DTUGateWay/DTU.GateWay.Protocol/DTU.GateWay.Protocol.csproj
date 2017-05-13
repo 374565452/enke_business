@@ -78,13 +78,16 @@
     <Compile Include="CmdResponseToDtuSetDateTime.cs" />
     <Compile Include="CmdResponseToDtuSetGroundWaterParam.cs" />
     <Compile Include="CmdResponseToDtuSetStationCode.cs" />
+    <Compile Include="CmdResponseToDtuSetWaterPower.cs" />
     <Compile Include="CmdResponseToDtuSetYearExploitation.cs" />
     <Compile Include="CmdResponseToDtuShieldSerialNumber.cs" />
     <Compile Include="CmdResponseToDtuShieldSerialNumberCancel.cs" />
     <Compile Include="CmdToDtuQueryGroundWaterParam.cs" />
     <Compile Include="CmdToDtuQueryState.cs" />
+    <Compile Include="CmdToDtuQueryWaterPower.cs" />
     <Compile Include="CmdToDtuSendFile.cs" />
     <Compile Include="CmdToDtuSetGroundWaterParam.cs" />
+    <Compile Include="CmdToDtuSetWaterPower.cs" />
     <Compile Include="CmdToDtuShieldSerialNumberCancel.cs" />
     <Compile Include="CmdToDtuClosePump.cs" />
     <Compile Include="CmdToDtuOpenPump.cs" />

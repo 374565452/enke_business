@@ -643,6 +643,52 @@ namespace Server.Core.ProtocolProcess
 
                         //proxySendCommand(command);
                     }
+                    //start add by kqz 2017-5-13 22:31 
+                    else if (message.ControlField == (byte)BaseProtocol.ControlField.FromDtu
+                        && message.AFN == (byte)BaseProtocol.AFN.ToDtuSetWaterPower)
+                    {
+                        CmdResponseToDtuSetWaterPower cmdreceive = new CmdResponseToDtuSetWaterPower(message);
+                        //cmdreceive.UserData = message.UserData;
+                        string msgreceive = cmdreceive.ReadMsg();
+                        if (d != null)
+                        {
+                            d.Online = 1;
+                            d.LastUpdate = DateTime.Now;
+                            d.Remark = message.RawDataStr;
+                            d.TerminalState = "设置累计用水量与用电量响应";
+                            updateDeviceList(d);
+                            OnlineDeviceService.AddOnline(deviceNo, d);
+                            DeviceEvent deviceEvent = new DeviceEvent();
+                            DeviceEventModule.InitDeviceEvent(deviceEvent);
+                            deviceEvent.DeviceNo = deviceNo;
+                            deviceEvent.EventTime = d.LastUpdate;
+                            deviceEvent.EventType = d.TerminalState;
+                            deviceEvent.DeviceTime = d.LastUpdate;
+                            //deviceEvent.YearExploitation = cmdreceive.YearExploitation;
+                            deviceEvent.YearElectricUsed = cmdreceive.PowerUsed;
+                            deviceEvent.YearWaterUsed = cmdreceive.WaterUsed;
+                            deviceEvent.RawData = message.RawDataStr;
+                            if (msgreceive != "")
+                            {
+                                deviceEvent.Remark = "设置累计用水量与用电量响应出错：" + msgreceive;
+                            }
+                            else
+                            {
+                                deviceEvent.Remark = "设置终端累计用水量与用电量为：" + cmdreceive.WaterUsed.ToString() +"=="+cmdreceive.PowerUsed.ToString();
+                            }
+                            saveDeviceEvent(deviceEvent);
+                            proxySendDeviceList(d, deviceEvent);
+
+                            if (ToDtuCommand.GetBaseMessageToDtuByKey(message.AddressField + "-" + message.AFN) != null)
+                            {
+                                ToDtuCommand.AddBaseMessageFromDtu(cmdreceive.AddressField + "-" + cmdreceive.AFN, cmdreceive);
+                                //ShowLogData.add("添加发送命令响应保存！" + cmdreceive.AddressField + "-" + cmdreceive.AFN + "：" + cmdreceive.RawDataStr);
+                            }
+                        }
+
+                        //proxySendCommand(command);
+                    }
+                    //end add
                     else if (message.ControlField == (byte)BaseProtocol.ControlField.FromDtu
                         && message.AFN == (byte)BaseProtocol.AFN.ToDtuOpenPump)
                     {
