@@ -4,6 +4,7 @@ using Maticsoft.Model;
 using Module;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -150,6 +151,7 @@ namespace WaterMonitorSystem
                         file.InputStream.Seek(0, SeekOrigin.Begin);
                         //start update by kqz 2017-3-20
                         int count = 0;
+ //Debug.Print("len =========" + file.ContentLength);
                         //int count = file.ContentLength / packetSize + 1;
                         if ((file.ContentLength % packetSize) == 0)
                         {
@@ -194,7 +196,7 @@ namespace WaterMonitorSystem
                                     //Array.Copy(bsOld, packetSize * i - 1, bs, 0, bs.Length);
                                     //Array.Copy(bs, 0, bsNew, packetSize * i - 1, bs.Length);
                                 }
-
+Debug.Print("aaaaaaaaaaaaaaaaaaaaaa------------------\r\n");
                                 CmdToDtuSendFile cmd = new CmdToDtuSendFile();
                                 cmd.AddressField = DeviceNo.Substring(0, 12) + Convert.ToInt32(DeviceNo.Substring(12, 3)).ToString("X").PadLeft(2, '0');
                                 cmd.StationType = (byte)device.StationType;

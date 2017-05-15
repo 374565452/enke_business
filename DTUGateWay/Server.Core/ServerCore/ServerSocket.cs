@@ -567,11 +567,14 @@ namespace Server.Core.ServerCore
             {
                 if (token.isClose)
                 {
-                    if (SysCache.ShowInfoLog)
+                    if (SysCache.ShowInfoLog )
                     {
-                        string info = string.Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":[" + token.ConnectedSocket.RemoteEndPoint.ToString() + "]：DTU通信服务，客户端{0}正在关闭", token.DeviceList.DeviceNo);
-                        ShowLogData.add(info);
-                        LogHelper.Info(info);
+                        if (token.ConnectedSocket != null)
+                        {
+                            string info = string.Format(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + ":[" + token.ConnectedSocket.RemoteEndPoint.ToString() + "]：DTU通信服务，客户端{0}正在关闭", token.DeviceList.DeviceNo);
+                            ShowLogData.add(info);
+                            LogHelper.Info(info);
+                        }
                     }
                     return;
                 }

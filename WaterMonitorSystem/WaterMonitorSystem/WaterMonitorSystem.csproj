@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CarlosAg.ExcelXmlWriter">
-      <HintPath>..\..\..\CarlosAg.ExcelXmlWriter.dll</HintPath>
+      <HintPath>..\..\CarlosAg.ExcelXmlWriter.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1243,6 +1243,7 @@
     <Content Include="md\DownFiles\mysql数库安装.doc" />
     <None Include="Properties\PublishProfiles\2017-3-1新需求.pubxml" />
     <None Include="Properties\PublishProfiles\aa.pubxml" />
+    <None Include="Properties\PublishProfiles\enKe_publish.pubxml" />
     <None Include="Properties\PublishProfiles\en_ke_project.pubxml" />
     <None Include="Properties\PublishProfiles\home_publish.pubxml" />
     <None Include="Properties\PublishProfiles\WaterMonitorSystem.pubxml" />

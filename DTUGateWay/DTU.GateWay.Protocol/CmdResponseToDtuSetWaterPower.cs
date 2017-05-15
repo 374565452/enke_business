@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,14 +88,15 @@ namespace DTU.GateWay.Protocol
             WaterUsed = 0;
 
             string data = UserData;
-
+//Debug.Print(data + "           -----\r\n");
             try
             {
                 WaterUsed = decimal.Parse(data.Substring(0, 8)) / 10m;
-                PowerUsed = decimal.Parse(data.Substring(9, 17)) / 10m;
+                PowerUsed = decimal.Parse(data.Substring(8, 8)) / 10m;
             }
             catch(Exception ex)
             {
+//Debug.Print(ex.Message);
                 if (ShowLog)
                     logHelper.Error(ex.Message + Environment.NewLine + "获取累计用水用电量出错" + " " + RawDataStr);
                 return "获取累计用水用电量出错";

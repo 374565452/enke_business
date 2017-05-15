@@ -250,7 +250,9 @@ namespace DTU.GateWay.Protocol
                     Array.Copy(RawDataChar, 3, Body_b, 0, Body_b.Length);
                     CC = RawDataChar[RawDataChar.Length - 2];
                     byte CCN = FormatHelper.GetXorByte(Body_b, 0, Body_b.Length);
-                    if (CCN == CC)
+                    string s = "CCN = " + CCN + "  Length =  " + Length + " body_b .length is " + Body_b.Length+"===AFN=="+AFN+"  ";
+                    //update by kqz 2017-5-10-10:40 解决文件下发问题(（不进行校验）
+                    //if ( (CCN == CC))
                     {
                         ControlField = RawDataChar[3];
                         //if (ControlField == (byte)BaseProtocol.ControlField.FromDtu)
@@ -300,9 +302,11 @@ namespace DTU.GateWay.Protocol
                             msg = "控制域不对，" + ControlField.ToString("X");
                         }
                     }
-                    else
+                   // else
                     {
-                        msg = "校验码不对，" + CC;
+                        //msg = s + "校验码不对，" + CC;
+                        //add by kqz 2017-5-15 11:06更改为""，不需要校正验证码
+                        msg = "";
                     }
                 }
                 else
