@@ -278,6 +278,13 @@ Debug.Print("aaaaaaaaaaaaaaaaaaaaaa------------------\r\n");
                                             infos = "no|" + "终端正忙，请稍候传输数据！";
                                             //return "发送失败，终端正忙，请稍候传输数据！";
                                         }
+
+                                        if (i == count - 1)
+                                        {
+                                            op.State = "发送成功";
+                                            infos = "no|结果为0，退出";
+                                        }
+
                                     }
                                 }
                                 else
