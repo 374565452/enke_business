@@ -305,9 +305,9 @@ Debug.Print("aaaaaaaaaaaaaaaaaaaaaa------------------\r\n");
                             }
                             catch (Exception e)
                             {
-
-                                myLogger.Error((i + 1).ToString().PadLeft(count.ToString().Length, '0') + "-" + count + "：出错，发送失败" + e.Message);
-                                return "no|" + (i + 1);
+                                
+                                myLogger.Error((i + 1).ToString().PadLeft(count.ToString().Length, '0') + "-" + count + "：出错，发送失败" + e.Message+"  the trace :"+e.StackTrace);
+                                //return "no|" + (i + 1);
                             }
                             #endregion
                         }
@@ -326,69 +326,80 @@ Debug.Print("aaaaaaaaaaaaaaaaaaaaaa------------------\r\n");
 
         private ResMsg SendCmd(byte[] cmd_send)
         {
-            ResMsg msg = new ResMsg(false, "");
-
-            TcpCommunication tcpService = new TcpCommunication();
-            int timeDelay = 0;
-            //待socket准备好
-            while (timeDelay < tcpService.TcpWait)
+             ResMsg msg = new ResMsg(false, "");
+            try
             {
-                if ((tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CONNECTED)
-                    || (tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CLOSED))
+               
+
+                TcpCommunication tcpService = new TcpCommunication();
+                int timeDelay = 0;
+                //待socket准备好
+                while (timeDelay < tcpService.TcpWait)
                 {
-                    break;
+                    if ((tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CONNECTED)
+                        || (tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CLOSED))
+                    {
+                        break;
+                    }
+
+                    Thread.Sleep(100);
+                    timeDelay = timeDelay + 1;
+                }
+                if (tcpService.SOCKET_STATE != TcpCommunication.TCP_SocketState.SOCKET_CONNECTED)
+                {
+                    msg.Message = "与网关通讯失败！";
+                    return msg;
                 }
 
-                Thread.Sleep(100);
-                timeDelay = timeDelay + 1;
+                tcpService.SendData(cmd_send, 0, cmd_send.Length);
+
+                bool waitRsp = false;
+                timeDelay = 0;
+                while (timeDelay < tcpService.TcpWait)
+                {
+                    if (tcpService.socketData.Buffer.Length >= CommandCommon.CMD_MIN_LENGTH)
+                    {
+                        byte[] re = tcpService.socketData.Buffer.Buffer;
+                        byte[] buffer_new = new byte[tcpService.socketData.Buffer.Length];
+                        Array.Copy(re, buffer_new, tcpService.socketData.Buffer.Length);
+                        waitRsp = true;
+                        msg.Result = true;
+                        msg.Message = HexStringUtility.ByteArrayToHexString(buffer_new);
+
+                        myLogger.Info("收到数据：" + msg.Message);
+                    }
+
+                    if (waitRsp == true)
+                    {
+                        //myLogger.Info("获取响应结束");
+                        break;
+                    }
+
+                    if (tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CLOSED)
+                    {
+                        //myLogger.Info("Socket关闭结束");
+                        break;
+                    }
+
+                    Thread.Sleep(50);
+                    timeDelay = timeDelay + 1;
+                }
+                tcpService.Close();
+                if (waitRsp == false)
+                {
+                    msg.Message = "等待设备回复超时！";
+                }
+               
+              
             }
-            if (tcpService.SOCKET_STATE != TcpCommunication.TCP_SocketState.SOCKET_CONNECTED)
+            catch (Exception e)
             {
-                msg.Message = "与网关通讯失败！";
-                return msg;
-            }
-
-            tcpService.SendData(cmd_send, 0, cmd_send.Length);
-
-            bool waitRsp = false;
-            timeDelay = 0;
-            while (timeDelay < tcpService.TcpWait)
-            {
-                if (tcpService.socketData.Buffer.Length >= CommandCommon.CMD_MIN_LENGTH)
-                {
-                    byte[] re = tcpService.socketData.Buffer.Buffer;
-                    byte[] buffer_new = new byte[tcpService.socketData.Buffer.Length];
-                    Array.Copy(re, buffer_new, tcpService.socketData.Buffer.Length);
-                    waitRsp = true;
-                    msg.Result = true;
-                    msg.Message = HexStringUtility.ByteArrayToHexString(buffer_new);
-
-                    myLogger.Info("收到数据：" + msg.Message);
-                }
-
-                if (waitRsp == true)
-                {
-                    //myLogger.Info("获取响应结束");
-                    break;
-                }
-
-                if (tcpService.SOCKET_STATE == TcpCommunication.TCP_SocketState.SOCKET_CLOSED)
-                {
-                    //myLogger.Info("Socket关闭结束");
-                    break;
-                }
-
-                Thread.Sleep(100);
-                timeDelay = timeDelay + 1;
-            }
-
-            tcpService.Close();
-
-            if (waitRsp == false)
-            {
-                msg.Message = "等待设备回复超时！";
+                myLogger.Info("异常信息为：" + e.StackTrace);
+                
             }
             return msg;
+           
         }
+            
     }
 }
