@@ -58,9 +58,9 @@ namespace Module
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into DeviceEvent_" + model.DeviceTime.Year + "(");
-            strSql.Append("DeviceNo,EventType,EventTime,DeviceTime,DeviceState,SerialNumber,UserNo,StartTime,StartResidualWater,StartResidualElectric,EndTime,EndResidualWater,EndResidualElectric,WaterUsed,ElectricUsed,YearWaterUsed,YearElectricUsed,YearSurplus,YearExploitation,RecordType,REV1,REV2,Remark,UserId,UserName,RawData,SendSate)");
+            strSql.Append("DeviceNo,EventType,EventTime,DeviceTime,DeviceState,SerialNumber,UserNo,StartTime,StartResidualWater,StartResidualElectric,EndTime,EndResidualWater,EndResidualElectric,WaterUsed,ElectricUsed,YearWaterUsed,YearElectricUsed,YearSurplus,YearExploitation,RecordType,REV1,REV2,Remark,UserId,UserName,RawData,SendSate,WaterPower,UnderWaterLevel,WaterTemp)");
             strSql.Append(" values (");
-            strSql.Append("@DeviceNo,@EventType,@EventTime,@DeviceTime,@DeviceState,@SerialNumber,@UserNo,@StartTime,@StartResidualWater,@StartResidualElectric,@EndTime,@EndResidualWater,@EndResidualElectric,@WaterUsed,@ElectricUsed,@YearWaterUsed,@YearElectricUsed,@YearSurplus,@YearExploitation,@RecordType,@REV1,@REV2,@Remark,@UserId,@UserName,@RawData,@SendSate)");
+            strSql.Append("@DeviceNo,@EventType,@EventTime,@DeviceTime,@DeviceState,@SerialNumber,@UserNo,@StartTime,@StartResidualWater,@StartResidualElectric,@EndTime,@EndResidualWater,@EndResidualElectric,@WaterUsed,@ElectricUsed,@YearWaterUsed,@YearElectricUsed,@YearSurplus,@YearExploitation,@RecordType,@REV1,@REV2,@Remark,@UserId,@UserName,@RawData,@SendSate,@WaterPower,@UnderWaterLevel,@WaterTemp)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@DeviceNo", SqlDbType.NVarChar,50),
@@ -89,7 +89,12 @@ namespace Module
 					new SqlParameter("@UserId", SqlDbType.BigInt,8),
 					new SqlParameter("@UserName", SqlDbType.NVarChar,50),
 					new SqlParameter("@RawData", SqlDbType.NVarChar,-1),
-					new SqlParameter("@SendSate", SqlDbType.NVarChar,50)};
+					new SqlParameter("@SendSate", SqlDbType.NVarChar,50),
+                    
+                                        new SqlParameter("@WaterPower", SqlDbType.Decimal,9),
+                                        new SqlParameter("@UnderWaterLevel", SqlDbType.Decimal,9),
+                                        new SqlParameter("@WaterTemp", SqlDbType.Decimal,9)
+                                        };
             parameters[0].Value = model.DeviceNo;
             parameters[1].Value = model.EventType;
             parameters[2].Value = model.EventTime;
@@ -118,6 +123,9 @@ namespace Module
             parameters[25].Value = model.RawData;
             parameters[26].Value = model.SendSate;
 
+            parameters[26].Value = model.WaterPower;
+            parameters[26].Value = model.UnderWaterLevel;
+            parameters[26].Value = model.WaterTemp;
             try
             {
                 object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
@@ -185,6 +193,12 @@ namespace Module
             strSql.Append("UserName=@UserName,");
             strSql.Append("RawData=@RawData,");
             strSql.Append("SendSate=@SendSate");
+
+            //WaterPower,UnderWaterLevel,WaterTemp
+            strSql.Append("WaterPower=@WaterPower");
+            strSql.Append("UnderWaterLevel=@UnderWaterLevel");
+            strSql.Append("WaterTemp=@WaterTemp");
+
             strSql.Append(" where Id=@Id");
             SqlParameter[] parameters = {
 					new SqlParameter("@EventType", SqlDbType.NVarChar,50),
@@ -214,6 +228,12 @@ namespace Module
 					new SqlParameter("@SendSate", SqlDbType.NVarChar,50),
 					new SqlParameter("@Id", SqlDbType.BigInt,8),
 					new SqlParameter("@DeviceNo", SqlDbType.NVarChar,50),
+                   
+                    //WaterPower,UnderWaterLevel,WaterTemp
+                    new SqlParameter("@WaterPower", SqlDbType.Decimal,9),
+                    new SqlParameter("@UnderWaterLevel", SqlDbType.Decimal,9),
+                    new SqlParameter("@WaterTemp", SqlDbType.Decimal,9),
+
 					new SqlParameter("@DeviceTime", SqlDbType.DateTime)};
             parameters[0].Value = model.EventType;
             parameters[1].Value = model.EventTime;
@@ -242,7 +262,12 @@ namespace Module
             parameters[24].Value = model.SendSate;
             parameters[25].Value = model.Id;
             parameters[26].Value = model.DeviceNo;
-            parameters[27].Value = model.DeviceTime;
+
+            parameters[27].Value = model.WaterPower;
+            parameters[28].Value = model.UnderWaterLevel;
+            parameters[29].Value = model.WaterTemp;
+
+            parameters[30].Value = model.DeviceTime;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

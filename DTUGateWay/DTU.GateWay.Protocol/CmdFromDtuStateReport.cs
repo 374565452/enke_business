@@ -78,7 +78,34 @@ namespace DTU.GateWay.Protocol
             set;
             get;
         }
+        //start add by kqz 2017-6-24
+        /// <summary>
+        /// 水压，3字节，压缩 BCD
+        /// </summary>
+        public decimal WaterPower
+        {
+            set;
+            get;
+        }
 
+        /// <summary>
+        /// 地下水水位 3字节
+        /// </summary>
+        public decimal UnderWaterLevel
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// 水温 2字节
+        /// </summary>
+        public decimal WaterTemp
+        {
+            set;
+            get;
+        }
+        //end add by kqz 2017-6-24
         public override byte[] WriteMsg()
         {
             string data = HexStringUtility.BinStringToHexString(State).PadLeft(8, '0');
@@ -145,6 +172,43 @@ namespace DTU.GateWay.Protocol
                     logHelper.Error(ex.Message + Environment.NewLine + "获取累计用水量出错" + " " + RawDataStr);
                 return "获取累计用水量出错";
             }
+
+            //start add by kqz 2017-6-24
+
+            try
+            {
+                WaterPower = decimal.Parse(data.Substring(28, 6)) / 100m;
+            }
+            catch (Exception ex)
+            {
+                if (ShowLog)
+                    logHelper.Error(ex.Message + Environment.NewLine + "获取水压出错" + " " + RawDataStr);
+                return "获取水压出错";
+            }
+
+            try
+            {
+                UnderWaterLevel = decimal.Parse(data.Substring(34, 6)) / 100m;
+            }
+            catch (Exception ex)
+            {
+                if (ShowLog)
+                    logHelper.Error(ex.Message + Environment.NewLine + "获取地下水水位出错" + " " + RawDataStr);
+                return "获取地下水水位出错";
+            }
+
+            try
+            {
+                WaterTemp = decimal.Parse(data.Substring(40,4)) / 10m;
+            }
+            catch (Exception ex)
+            {
+                if (ShowLog)
+                    logHelper.Error(ex.Message + Environment.NewLine + "获取水温出错" + " " + RawDataStr);
+                return "获取水温出错";
+            }
+
+            //end add by kqz 2017-6-24
 
             return "";
         }

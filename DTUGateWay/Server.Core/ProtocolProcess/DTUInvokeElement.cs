@@ -263,6 +263,11 @@ namespace Server.Core.ProtocolProcess
                             d.TerminalState = "状态自报";
                             if (cmdreceive.WaterUsed > 0)
                                 d.WaterUsed = cmdreceive.WaterUsed;
+                            //start add by kqz 2017-6-24
+                            d.WaterPower = cmdreceive.WaterPower;
+                            d.UnderWaterLevel = cmdreceive.UnderWaterLevel;
+                            d.WaterTemp = cmdreceive.WaterTemp;
+                            //end add by kqz 2017-6-24
                             updateDeviceList(d);
                             OnlineDeviceService.AddOnline(deviceNo, d);
                             DeviceEvent deviceEvent = new DeviceEvent();
@@ -272,6 +277,12 @@ namespace Server.Core.ProtocolProcess
                             deviceEvent.EventType = d.TerminalState;
                             deviceEvent.DeviceState = cmdreceive.State == null ? "0".PadLeft(32, '0') : cmdreceive.State.PadLeft(32, '0');
                             deviceEvent.YearWaterUsed = cmdreceive.WaterUsed;
+
+                            //start add by kqz 2017-6-24
+                            deviceEvent.WaterPower = d.WaterPower;
+                            deviceEvent.WaterTemp = d.WaterTemp;
+                            deviceEvent.UnderWaterLevel = d.UnderWaterLevel;
+                            //end add by kqz 2017-6-24
                             deviceEvent.RawData = message.RawDataStr;
                             AlarmService.DeviceAlarmAnalyse(deviceEvent);
                             if (msgreceive != "")

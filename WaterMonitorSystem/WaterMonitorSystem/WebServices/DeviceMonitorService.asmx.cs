@@ -507,6 +507,11 @@ namespace WaterMonitorSystem.WebServices
                 realTimeDataColumns.Add("年剩余可开采量");
                 realTimeDataColumns.Add("流量仪表状态");
                 realTimeDataColumns.Add("终端箱门状态");
+                //start add by kqz 2017-6-24
+                realTimeDataColumns.Add("水压");
+                realTimeDataColumns.Add("地下水水位");
+                realTimeDataColumns.Add("水温");
+                //end add by kqz 2017-6-24
                 realTimeDataColumns.Add("IC卡功能有效");
                 realTimeDataColumns.Add("水泵工作状态");
                 realTimeDataColumns.Add("井剩余水量报警");
@@ -611,6 +616,11 @@ namespace WaterMonitorSystem.WebServices
                     case "电表信号报警": obj3.Add("Value", (array[0] == null ? "-" : (array[0].DeviceState[32 - 16] == '1' ? "报警" : "正常"))); break;
                     case "流量仪表状态": obj3.Add("Value", (array[0] == null ? "-" : (array[0].DeviceState[32 - 6] == '1' ? "故障" : "正常"))); break;
                     case "终端箱门状态": obj3.Add("Value", (array[0] == null ? "-" : (array[0].DeviceState[32 - 8] == '1' ? "关闭" : "开启"))); break;
+                    //start add by kqz 2017-6-24
+                    case "水压": obj3.Add("Value", device.WaterPower == 0 ? "" : device.WaterPower + ""); break;
+                    case "地下水水位": obj3.Add("Value", device.UnderWaterLevel == 0 ? "" : device.UnderWaterLevel + ""); break;
+                    case "水温": obj3.Add("Value", device.WaterTemp == 0 ? "" : device.WaterTemp + ""); break;
+                    //end add by kqz 2017-6-24
                     case "IC卡功能有效": obj3.Add("Value", (array[0] == null ? "-" : (array[0].DeviceState[32 - 10] == '1' ? "IC卡有效" : "关闭"))); break;
                     default: obj3.Add("Value", "未知"); break;
                 }

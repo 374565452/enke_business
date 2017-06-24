@@ -190,6 +190,27 @@ namespace Maticsoft.Model
         [DataMember]
         public decimal WaterUsed { get; set; }
 
+
+        //start add by kqz 2017-6-24
+        /// <summary>
+        /// 地下水压
+        /// </summary>	
+        [DataMember]
+        public decimal WaterPower { get; set; }
+
+        /// <summary>
+        /// 地下水水位
+        /// </summary>	
+        [DataMember]
+        public decimal UnderWaterLevel { get; set; }
+
+        /// <summary>
+        /// 地下水温度
+        /// </summary>	
+        [DataMember]
+        public decimal WaterTemp { get; set; }
+        //end add 
+
         /// <summary>
         /// 水位仪遥测站编码
         /// </summary>	

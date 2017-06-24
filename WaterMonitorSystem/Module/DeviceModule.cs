@@ -304,6 +304,11 @@ namespace Module
             strSql.Append("Rainfall_Day=@Rainfall_Day,");
             strSql.Append("Rainfall_Total=@Rainfall_Total,");
             strSql.Append("WaterLevel=@WaterLevel,");
+            //start add by kqz 2017 -6-24
+            strSql.Append("WaterPower=@WaterPower,");
+            strSql.Append("UnderWaterLevel=@UnderWaterLevel,");
+            strSql.Append("WaterTemp=@WaterTemp,");
+            //end add
             strSql.Append("Acq_Time=@Acq_Time");
             strSql.Append(" where Id=@Id");
             SqlParameter[] parameters = {
@@ -342,6 +347,11 @@ namespace Module
                     new SqlParameter("@Rainfall_Day", SqlDbType.Decimal,9),
                     new SqlParameter("@Rainfall_Total", SqlDbType.Decimal,9),
                     new SqlParameter("@WaterLevel", SqlDbType.Decimal,9),
+                    //start add by kqz 2017-6-24
+                    new SqlParameter("WaterPower",SqlDbType.Decimal,9),
+                    new SqlParameter("UnderWaterLevel",SqlDbType.Decimal,9),
+                    new SqlParameter("WaterTemp",SqlDbType.Decimal,9),
+                    //end add by kqz 2017-6-24
                     new SqlParameter("@Acq_Time", SqlDbType.DateTime),
 					new SqlParameter("@Id", SqlDbType.BigInt,8)};
             parameters[0].Value = device.SimNo;
@@ -379,8 +389,13 @@ namespace Module
             parameters[32].Value = device.Rainfall_Day;
             parameters[33].Value = device.Rainfall_Total;
             parameters[34].Value = device.WaterLevel;
-            parameters[35].Value = device.Acq_Time;
-            parameters[36].Value = device.Id;
+            //start add by kqz 2017-6-24
+            parameters[35].Value = device.WaterPower;
+            parameters[36].Value = device.UnderWaterLevel;
+            parameters[37].Value = device.WaterTemp;
+            //end add by kqz 2017-6-24
+            parameters[38].Value = device.Acq_Time;
+            parameters[39].Value = device.Id;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

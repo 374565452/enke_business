@@ -202,11 +202,16 @@ function LoadTableData(_devIds) {
                         tableRow["operation"] = "<a href='javascript:void(0)' onclick='ShowMore(" + DevDatas[i].操作.Value + ",event)'><Img id='imgedit' style='height:18px;width:18px;' border=0 src='../images/edit.png' /></a>";
                         //row++;
                         tableRow["pumpStatus6"] = DevDatas[i].流量仪表状态.Value == "故障" ? ("<span style='color:red;bold:weight'>" + DevDatas[i].流量仪表状态.Value + "</span>") : DevDatas[i].流量仪表状态.Value;
-                        tableRow["pumpStatus8"] = DevDatas[i].终端箱门状态.Value == "开启" ? ("<span style='color:red;bold:weight'>" + DevDatas[i].终端箱门状态.Value + "</span>") : DevDatas[i].终端箱门状态.Value;
+                        //tableRow["pumpStatus8"] = DevDatas[i].终端箱门状态.Value == "开启" ? ("<span style='color:red;bold:weight'>" + DevDatas[i].终端箱门状态.Value + "</span>") : DevDatas[i].终端箱门状态.Value;
                         tableRow["pumpStatus10"] = DevDatas[i].IC卡功能有效.Value == "IC卡有效" ? ("<span style='color:red;bold:weight'>" + DevDatas[i].IC卡功能有效.Value + "</span>") : DevDatas[i].IC卡功能有效.Value;
                         tableRow["pumpStatus16"] = DevDatas[i].电表信号报警.Value == "报警" ? ("<span style='color:red;bold:weight'>" + DevDatas[i].电表信号报警.Value + "</span>") : DevDatas[i].电表信号报警.Value;
                         //row++;
                         tableRow["Water"] = DevDatas[i].累计用水量.Value;
+                        //start add by kqz 2017-6-24
+                        tableRow["WaterPower"] = DevDatas[i].水压.Value == "" ? "" : DevDatas[i].水压.Value + " 千帕";
+                        tableRow["UnderWaterLevel"] = DevDatas[i].地下水水位.Value == "" ? "" : DevDatas[i].地下水水位.Value + " 米";
+                        tableRow["WaterTemp"] = DevDatas[i].水温.Value == "" ? "" : DevDatas[i].水温.Value + " 摄氏度";
+                        //end add by kqz 2017-6-24
                         /*内蒙定点数据修改*/
                         tableRow["yearWater"] = DevDatas[i].累计用水量.Value;
                                                 
