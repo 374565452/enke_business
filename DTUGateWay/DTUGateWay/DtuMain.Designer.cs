@@ -62,6 +62,8 @@
             this.数据缓存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.水位计测试ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.skinEngine12 = new Sunisoft.IrisSkin.SkinEngine();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.downloadToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -69,6 +71,7 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.deviceListsDataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -107,7 +110,7 @@
             this.copyrightToolStripStatusLabel.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.copyrightToolStripStatusLabel.Enabled = false;
             this.copyrightToolStripStatusLabel.Name = "copyrightToolStripStatusLabel";
-            this.copyrightToolStripStatusLabel.Size = new System.Drawing.Size(402, 21);
+            this.copyrightToolStripStatusLabel.Size = new System.Drawing.Size(433, 21);
             this.copyrightToolStripStatusLabel.Spring = true;
             this.copyrightToolStripStatusLabel.Text = "控制平台";
             // 
@@ -203,6 +206,9 @@
             this.deviceListsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.deviceListsDataGridView.Size = new System.Drawing.Size(789, 678);
             this.deviceListsDataGridView.TabIndex = 0;
+            this.deviceListsDataGridView.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.deviceListsDataGridView_CellContextMenuStripNeeded);
+            this.deviceListsDataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.deviceListsDataGridView_CellMouseDown);
+            this.deviceListsDataGridView.RowContextMenuStripNeeded += new System.Windows.Forms.DataGridViewRowContextMenuStripNeededEventHandler(this.deviceListsDataGridView_RowContextMenuStripNeeded);
             this.deviceListsDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.deviceListsDataGridView_RowPostPaint);
             // 
             // 在线
@@ -354,6 +360,20 @@
             this.skinEngine12.SerialNumber = "";
             this.skinEngine12.SkinFile = null;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.downloadToolStripMenu});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 26);
+            // 
+            // downloadToolStripMenu
+            // 
+            this.downloadToolStripMenu.Name = "downloadToolStripMenu";
+            this.downloadToolStripMenu.Size = new System.Drawing.Size(124, 22);
+            this.downloadToolStripMenu.Text = "下载文件";
+            this.downloadToolStripMenu.Click += new System.EventHandler(this.downloadToolStripMenu_Click);
+            // 
             // DtuMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -378,6 +398,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.deviceListsDataGridView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -415,6 +436,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn 事件动作;
         private System.Windows.Forms.DataGridViewTextBoxColumn 报文描述;
         private System.Windows.Forms.DataGridViewTextBoxColumn 事件原始报文;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenu;
     }
 }
 

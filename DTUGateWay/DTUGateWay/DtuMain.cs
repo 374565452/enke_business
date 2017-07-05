@@ -915,5 +915,64 @@ namespace DTUGateWay
         private void 数据同步ToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
+
+        private void downloadToolStripMenu_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deviceListsDataGridView_RowContextMenuStripNeeded(object sender, DataGridViewRowContextMenuStripNeededEventArgs e)
+        {
+            MessageBox.Show(e.ToString());
+            DataGridView dgv = (DataGridView)sender;
+            // 当"Column1"列是Bool型且为True时、设定其的ContextMenuStrip 
+            object boolVal = dgv["在线", e.RowIndex].Value;
+            //Console.WriteLine(boolVal);
+            MessageBox.Show(boolVal.ToString());
+            if (boolVal is bool && (bool)boolVal)
+            {
+                //e.ContextMenuStrip = this.ContextMenuStrip1;
+            } 
+        }
+
+        private void deviceListsDataGridView_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+            // 当"Column1"列是Bool型且为True时、设定其的ContextMenuStrip 
+            object boolVal = dgv["在线", e.RowIndex].Value;
+            //Console.WriteLine(boolVal);
+            MessageBox.Show(boolVal.ToString());
+            if (boolVal is bool && (bool)boolVal)
+            {
+                //e.ContextMenuStrip = this.ContextMenuStrip1;
+            } 
+        }
+
+        private void deviceListsDataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    //若行已是选中状态就不再进行设置  
+                    if (this.deviceListsDataGridView.Rows[e.RowIndex].Selected == false)
+                    {
+                        deviceListsDataGridView.ClearSelection();
+                        deviceListsDataGridView.Rows[e.RowIndex].Selected = true;
+                    }
+                    //只选中一行时设置活动单元格  
+                    if (deviceListsDataGridView.SelectedRows.Count == 1)
+                    {
+                        deviceListsDataGridView.CurrentCell = deviceListsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    }
+                    string val = deviceListsDataGridView["在线", e.RowIndex].Value.ToString();
+                    if (val.Equals("在线"))
+                    {
+                        //弹出操作菜单  
+                        contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+                    }
+                }
+            }  
+        }
     }
 }
