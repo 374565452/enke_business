@@ -69,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadClient.cs" />
+    <Compile Include="DownloadDataWorker.cs" />
     <Compile Include="DtuMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +102,12 @@
     <Compile Include="frmCS1.Designer.cs">
       <DependentUpon>frmCS1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDownload.Designer.cs">
+      <DependentUpon>FrmDownload.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCS1.resx">
       <DependentUpon>frmCS1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDownload.resx">
+      <DependentUpon>FrmDownload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLog.resx">
       <DependentUpon>frmLog.cs</DependentUpon>

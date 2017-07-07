@@ -18,6 +18,8 @@ namespace DTUGateWay
     {
         log4net.ILog logHelper = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        private IDictionary<string, long> realId = new Dictionary<string, long>();
+
         private string xmlConfig = Application.StartupPath + "\\setup.xml";
 
         //dtu服务端口号
@@ -25,6 +27,16 @@ namespace DTUGateWay
 
         //web服务端口号
         private int webPort = 0;
+
+        public int WebPort
+        {
+            get
+            {
+                return this.webPort;
+            }
+        }
+
+        public long CurSelectedDeviceRealId { get; set; }
 
         //超时时间
         private int timeout = 0;
@@ -579,6 +591,7 @@ namespace DTUGateWay
                     if (this.deviceListsDataGridView != null && this.deviceListsDataGridView.Rows != null)
                     {
                         this.deviceListsDataGridView.Rows.Clear();
+                        realId.Clear();
                     }
                     initData(deviceList);
                 }
@@ -630,7 +643,9 @@ namespace DTUGateWay
             viewRow.Cells.Add(deviceStateCell);
 
             DataGridViewTextBoxCell deviceNoCell = new DataGridViewTextBoxCell();
-            deviceNoCell.Value = DeviceModule.GetFullDeviceNoByID(device.Id);
+            string fullDevice = DeviceModule.GetFullDeviceNoByID(device.Id);
+            realId.Add(fullDevice, device.Id);
+            deviceNoCell.Value = fullDevice;
             viewRow.Cells.Add(deviceNoCell);
 
             DataGridViewTextBoxCell deviceDeviceNameCell = new DataGridViewTextBoxCell();
@@ -918,7 +933,8 @@ namespace DTUGateWay
 
         private void downloadToolStripMenu_Click(object sender, EventArgs e)
         {
-
+            FrmDownload download = new FrmDownload(this);
+            download.ShowDialog();
         }
 
         private void deviceListsDataGridView_RowContextMenuStripNeeded(object sender, DataGridViewRowContextMenuStripNeededEventArgs e)
@@ -966,7 +982,10 @@ namespace DTUGateWay
                         deviceListsDataGridView.CurrentCell = deviceListsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     }
                     string val = deviceListsDataGridView["在线", e.RowIndex].Value.ToString();
-                    if (val.Equals("在线"))
+                    string no = deviceListsDataGridView["设备序号", e.RowIndex].Value.ToString();
+                   // MessageBox.Show(realId[no].ToString());
+                    CurSelectedDeviceRealId = realId[no];
+                    if (val.Equals("离线"))
                     {
                         //弹出操作菜单  
                         contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);

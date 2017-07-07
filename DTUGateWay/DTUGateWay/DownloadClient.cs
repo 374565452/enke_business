@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,20 @@ using System.Threading.Tasks;
 
 namespace DTUGateWay
 {
+
+    public class ByteValueEventArgs : EventArgs
+    {
+        public int Pos { get; set; }
+
+        public int Length { get; set; }
+
+        public byte[] ArrayData { get; set; }
+    }
+
+    public delegate void ByteValueEventHandler(object sender,ByteValueEventArgs args);
+
+    public delegate void ConnectedEventHandler(object sender, EventArgs args);
+
     public class SocketState
     {
         private Socket socket;
@@ -42,6 +57,10 @@ namespace DTUGateWay
     {
         public Socket socket;
 
+        public event ConnectedEventHandler connectEventHandler;
+
+        public event ByteValueEventHandler byteValueEventHandler;
+
         #region 连接服务器
         public void connect(string ip, int port)
         {
@@ -50,10 +69,10 @@ namespace DTUGateWay
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IPAddress address = IPAddress.Parse(ip);
                 IPEndPoint endPoint = new IPEndPoint(address, port);
-                //socket.BeginConnect(endPoint, new AsyncCallback(connectCallBakc), socket);
-                socket.Connect(endPoint);
+                socket.BeginConnect(endPoint, new AsyncCallback(connectCallBakc), socket);
+                //socket.Connect(endPoint);
 
-                receive(socket);
+                //receive(socket);
               
                 //connectDone.WaitOne();
             }
@@ -76,7 +95,10 @@ namespace DTUGateWay
                 //string info = String.Format("Socket connected to {0} \n", client.RemoteEndPoint.ToString());
                 //this.showInfo(info);
                 //connectDone.Set();
-               
+                if (connectEventHandler != null)
+                {
+                    connectEventHandler(this, new EventArgs());
+                }
                 receive(client);
                 //connectDone.Set();
             }
@@ -113,6 +135,19 @@ namespace DTUGateWay
                 int byteReceive = client.EndReceive(ar);
                 if (byteReceive > 0)
                 {
+                    if (byteReceive >= CommandCommon.CMD_MIN_LENGTH)
+                    {
+                        byte[] newByte = new byte[byteReceive];
+                        Array.Copy(state.ReceiveBuffer,newByte, byteReceive);
+                        if (byteValueEventHandler != null)
+                        {
+                            ByteValueEventArgs args = new ByteValueEventArgs();
+                            args.Pos = 0;
+                            args.Length = byteReceive;
+                            args.ArrayData = newByte;
+                            byteValueEventHandler(this, args);
+                        }
+                    }
                    // receiveBufferManager.writeBuffer(state.ReceiveBuffer, 0, byteReceive);
                     //receiveProcess(receiveBufferManager);
                     client.BeginReceive(state.ReceiveBuffer, 0, state.ReceiveBuffer.Length, 0, new AsyncCallback(receiveCallBack), state);
@@ -127,7 +162,7 @@ namespace DTUGateWay
         #endregion
 
         #region 发送数据
-        private void send(byte[] buffer, int offset, int count)
+        public void send(byte[] buffer, int offset, int count)
         {
             socket.BeginSend(buffer, 0, count, 0, new AsyncCallback(sendCallBack), socket);
         }
@@ -155,6 +190,29 @@ namespace DTUGateWay
         }
         #endregion
 
+        public void close()
+        {
+            if (socket == null)
+                return;
 
+            if (!socket.Connected)
+                return;
+
+            try
+            {
+                socket.Shutdown(SocketShutdown.Both);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                socket.Close();
+            }
+            catch
+            {
+            }  
+        }
     }
 }
