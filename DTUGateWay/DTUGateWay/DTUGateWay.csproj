@@ -40,7 +40,7 @@
     </Reference>
     <Reference Include="IrisSkin4, Version=2006.3.22.45, Culture=neutral, PublicKeyToken=127be25a6db25e07, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\person_business\IrisSkin4.dll</HintPath>
+      <HintPath>..\..\..\IrisSkin4.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\log4net.dll</HintPath>
@@ -52,9 +52,6 @@
     <Reference Include="Module, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\WaterMonitorSystem\Module\bin\Debug\Module.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
