@@ -28,16 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.fileTypeCb = new System.Windows.Forms.ComboBox();
             this.fileTxt = new System.Windows.Forms.TextBox();
             this.fileBtn = new System.Windows.Forms.Button();
             this.downloadBtn = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label2 = new System.Windows.Forms.Label();
-            this.stateLabel = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -93,37 +89,11 @@
             this.progressBar1.Size = new System.Drawing.Size(392, 23);
             this.progressBar1.TabIndex = 5;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(271, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 12);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "服务器连接状态：";
-            // 
-            // stateLabel
-            // 
-            this.stateLabel.AutoSize = true;
-            this.stateLabel.ForeColor = System.Drawing.Color.Red;
-            this.stateLabel.Location = new System.Drawing.Point(379, 21);
-            this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Size = new System.Drawing.Size(53, 12);
-            this.stateLabel.TabIndex = 7;
-            this.stateLabel.Text = "连接失败";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 30000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // FrmDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 192);
-            this.Controls.Add(this.stateLabel);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.downloadBtn);
             this.Controls.Add(this.fileBtn);
@@ -135,7 +105,7 @@
             this.Name = "FrmDownload";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "文件下发";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDownload_FormClosing);
+            this.Shown += new System.EventHandler(this.FrmDownload_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,8 +119,5 @@
         private System.Windows.Forms.Button fileBtn;
         private System.Windows.Forms.Button downloadBtn;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label stateLabel;
-        private System.Windows.Forms.Timer timer1;
     }
 }
