@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -142,6 +143,7 @@ namespace DTUGateWay
                 count = (int)fileInfo.Length / packetSize + 1;
             }
             downloadApp();
+            this.totalFrameLabel.Text = count.ToString();
             this.downloadBtn.Enabled = false;
         }
 
@@ -172,7 +174,10 @@ namespace DTUGateWay
                  }
                  else
                  {
-                     sendBuffer = buffer;
+       //Debug.WriteLine("the read is \r\n" + read);
+                     sendBuffer = new byte[read];
+                     Array.Copy(buffer, 0, sendBuffer, 0, read);
+                    // sendBuffer = buffer;
                  }
                  string DeviceNo = DeviceModule.GetFullDeviceNoByID(device.Id); 
                 CmdToDtuSendFile cmd = new CmdToDtuSendFile();
@@ -189,6 +194,7 @@ namespace DTUGateWay
                 client.send(cmd_send, 0, cmd_send.Length);
                 index++;
                 this.timer1.Start();
+                this.currentFrameLabel.Text = index.ToString();
             }
             else
             {
@@ -202,6 +208,8 @@ namespace DTUGateWay
                 this.progressBar1.Value = 0;
                 count = 0;
                 index = 0;
+                this.totalFrameLabel.Text = "0";
+                this.currentFrameLabel.Text = "0";
                 this.timer1.Stop();
                 this.downloadBtn.Enabled = true;
             }

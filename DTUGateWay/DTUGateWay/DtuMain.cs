@@ -985,7 +985,7 @@ namespace DTUGateWay
                     string no = deviceListsDataGridView["设备序号", e.RowIndex].Value.ToString();
                    // MessageBox.Show(realId[no].ToString());
                     CurSelectedDeviceRealId = realId[no];
-                    if (val.Equals("离线"))
+                    if (val.Equals("在线"))
                     {
                         //弹出操作菜单  
                         contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);

@@ -38,6 +38,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.stateLabel = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label3 = new System.Windows.Forms.Label();
+            this.totalFrameLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.currentFrameLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -117,11 +121,53 @@
             this.timer1.Interval = 30000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(25, 134);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "共：";
+            // 
+            // totalFrameLabel
+            // 
+            this.totalFrameLabel.AutoSize = true;
+            this.totalFrameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.totalFrameLabel.Location = new System.Drawing.Point(52, 136);
+            this.totalFrameLabel.Name = "totalFrameLabel";
+            this.totalFrameLabel.Size = new System.Drawing.Size(11, 12);
+            this.totalFrameLabel.TabIndex = 9;
+            this.totalFrameLabel.Text = "0";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(90, 135);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "当前帧：";
+            // 
+            // currentFrameLabel
+            // 
+            this.currentFrameLabel.AutoSize = true;
+            this.currentFrameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.currentFrameLabel.Location = new System.Drawing.Point(149, 136);
+            this.currentFrameLabel.Name = "currentFrameLabel";
+            this.currentFrameLabel.Size = new System.Drawing.Size(11, 12);
+            this.currentFrameLabel.TabIndex = 11;
+            this.currentFrameLabel.Text = "0";
+            // 
             // FrmDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 192);
+            this.Controls.Add(this.currentFrameLabel);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.totalFrameLabel);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBar1);
@@ -152,5 +198,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label stateLabel;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label totalFrameLabel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label currentFrameLabel;
     }
 }
