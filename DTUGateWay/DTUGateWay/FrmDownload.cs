@@ -1,8 +1,4 @@
-﻿using Common;
-using DTU.GateWay.Protocol;
-using Maticsoft.Model;
-using Module;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,62 +14,12 @@ namespace DTUGateWay
 {
     public partial class FrmDownload : Form
     {
-        private DtuMain dtuMain;
-
-        private bool isConnected;
-
-        private DownloadClient client;
-        private int packetSize = 256;
-
-        private long readCount = 0;
-        private Stream sr;
-
-        private Device device;
-
-        private bool isFirstSend;
-
-        private byte fileType = 0x03;
-
-        public FrmDownload(DtuMain main)
+        public FrmDownload()
         {
             InitializeComponent();
-            this.dtuMain = main;
-            
-            device = DeviceModule.GetDeviceByID(dtuMain.CurSelectedDeviceRealId);
-            this.Text = "向【" + device.DeviceName + "】设备下发文件";
-            this.fileTypeCb.SelectedIndex = 0;
             downloadWorker = new DownloadDataWorker();
             downloadWorker.valueChanged += downloadWorker_valueChanged;
             CheckForIllegalCrossThreadCalls = false;
-            isConnected = false;
-            //进行与网关服务层进行连接操作
-            client = new DownloadClient();
-            client.byteValueEventHandler += client_byteValueEventHandler;
-            client.connectEventHandler += client_connectEventHandler;
-            //连接到web server中
-            client.connect("127.0.0.1", dtuMain.WebPort);
-            isFirstSend = true;
-            this.timer1.Enabled = true;
-            this.timer1.Stop();
-        }
-
-        //当客户端连接上服务器端后，返回的数据
-        void client_connectEventHandler(object sender, EventArgs args)
-        {
-            //throw new NotImplementedException();
-            this.stateLabel.ForeColor = Color.Green;
-            this.stateLabel.Text = "连接成功";
-            isConnected = true;
-        }
-
-        //正常有数据返回时，说明接收正常，可以进行下一次数据的发送操作
-        void client_byteValueEventHandler(object sender, ByteValueEventArgs args)
-        {
-            //throw new NotImplementedException();
-            isFirstSend = false;
-            this.timer1.Stop();
-            downloadApp();
-            
         }
 
         void downloadWorker_valueChanged(object sender, ValueEventArgs e)
@@ -213,28 +159,12 @@ namespace DTUGateWay
                 this.timer1.Stop();
                 this.downloadBtn.Enabled = true;
             }
+
         }
 
-        private void FrmDownload_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmDownload_Shown(object sender, EventArgs e)
         {
-            if (sr != null)
-            {
-                sr.Close();
-                sr = null;
-            }
-            client.close();
-        }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            MessageBox.Show("长时间没有响应，发送失败！");
-            this.fileTxt.Text = "";
-            this.progressBar1.Value = 0;
-            count = 0;
-            index = 0;
-            this.timer1.Stop();
-            this.downloadBtn.Enabled = true;
         }
-      
     }
 }

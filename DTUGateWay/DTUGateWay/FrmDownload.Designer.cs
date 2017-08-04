@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.fileTypeCb = new System.Windows.Forms.ComboBox();
             this.fileTxt = new System.Windows.Forms.TextBox();
             this.fileBtn = new System.Windows.Forms.Button();
             this.downloadBtn = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+<<<<<<< HEAD
             this.label2 = new System.Windows.Forms.Label();
             this.stateLabel = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -42,6 +42,8 @@
             this.totalFrameLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.currentFrameLabel = new System.Windows.Forms.Label();
+=======
+>>>>>>> 7993a0bc2e118a304eafc87fecbeefda72129d41
             this.SuspendLayout();
             // 
             // label1
@@ -97,6 +99,7 @@
             this.progressBar1.Size = new System.Drawing.Size(392, 23);
             this.progressBar1.TabIndex = 5;
             // 
+<<<<<<< HEAD
             // label2
             // 
             this.label2.AutoSize = true;
@@ -159,17 +162,22 @@
             this.currentFrameLabel.TabIndex = 11;
             this.currentFrameLabel.Text = "0";
             // 
+=======
+>>>>>>> 7993a0bc2e118a304eafc87fecbeefda72129d41
             // FrmDownload
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 192);
+<<<<<<< HEAD
             this.Controls.Add(this.currentFrameLabel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.totalFrameLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.label2);
+=======
+>>>>>>> 7993a0bc2e118a304eafc87fecbeefda72129d41
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.downloadBtn);
             this.Controls.Add(this.fileBtn);
@@ -181,7 +189,7 @@
             this.Name = "FrmDownload";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "文件下发";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDownload_FormClosing);
+            this.Shown += new System.EventHandler(this.FrmDownload_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,6 +203,7 @@
         private System.Windows.Forms.Button fileBtn;
         private System.Windows.Forms.Button downloadBtn;
         private System.Windows.Forms.ProgressBar progressBar1;
+<<<<<<< HEAD
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label stateLabel;
         private System.Windows.Forms.Timer timer1;
@@ -202,5 +211,7 @@
         private System.Windows.Forms.Label totalFrameLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label currentFrameLabel;
+=======
+>>>>>>> 7993a0bc2e118a304eafc87fecbeefda72129d41
     }
 }
